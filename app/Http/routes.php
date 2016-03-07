@@ -15,7 +15,12 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-//Route::get('api/content', ['middleware' => 'auth:api', 'uses' => 'ContentController@content']);
+/*$app->post('/signup', function () use ($app) {
+    return $app->version();
+});
+*/
+
+$app->post('api/signup', ['middleware' => 'auth:api', 'uses' => 'AuthenticateController@signup']);
 
 /*$app->get('/data', ['middleware' => 'cors', function() {
     //

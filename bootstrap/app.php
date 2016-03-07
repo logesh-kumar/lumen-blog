@@ -65,7 +65,9 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'cors' => 'palanik\lumen\Middleware\LumenCors'
+    'cors' => 'palanik\lumen\Middleware\LumenCors',
+    'jwt.auth'    => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+    'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
 ]);
 
 /*
@@ -83,6 +85,14 @@ $app->routeMiddleware([
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Irazasyed\JwtAuthGuard\JwtAuthGuardServiceProvider::class);
+$app->register('Tymon\JWTAuth\Providers\JWTAuthServiceProvider');
+if(class_exists('Vluzrmos\Tinker\TinkerServiceProvider')) {
+    $app->register('Vluzrmos\Tinker\TinkerServiceProvider');
+}
+
+
+class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
+class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory'); // Optional
 
 /*
 |--------------------------------------------------------------------------

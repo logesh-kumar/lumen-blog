@@ -4,9 +4,17 @@ use Illuminate\Support\Facades\Hash;
 use Config;
 use Validator;
 use App\User;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 
 class AuthenticateController extends Controller{
+
+    public function __construct() 
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(){
 	    $users = User::all();
 	    return $users;
@@ -47,6 +55,9 @@ class AuthenticateController extends Controller{
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->save();
-        return response()->json(['token' => $this->createToken($user)]);
+        //return response()->json(['token' => $this->createToken($user)]);
+        $token = Auth::generateTokenById($user->id);
+        return $token;
+
     }
 }
